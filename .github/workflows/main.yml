@@ -21,17 +21,13 @@ steps:
       git config --global user.email "you@example.com"
       git config --global user.name "your-username"
 
-  - name: Add HF remote with token
+  - name: Add Hugging Face remote
     env:
       HF_TOKEN: ${{ secrets.HF_TOKEN }}
     run: |
       git remote add hf https://gvrraghav:$HF_TOKEN@huggingface.co/spaces/gvrraghav/OpenAI-Chatbot-Query-App
 
-  - name: Pull from Hugging Face (IMPORTANT)
+  - name: Force push to Hugging Face (FINAL FIX)
     run: |
-      git pull hf main --rebase
-
-  - name: Push to Hugging Face
-    run: |
-      git push hf main
+      git push hf main --force
 ```
