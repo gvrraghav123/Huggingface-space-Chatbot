@@ -11,12 +11,12 @@ runs-on: ubuntu-latest
 
 ```
 steps:
-  - name: Checkout repo
+  - name: Checkout repository
     uses: actions/checkout@v3
     with:
       fetch-depth: 0
 
-  - name: Set Git identity
+  - name: Configure Git
     run: |
       git config --global user.email "you@example.com"
       git config --global user.name "your-username"
@@ -27,7 +27,7 @@ steps:
     run: |
       git remote add hf https://gvrraghav:$HF_TOKEN@huggingface.co/spaces/gvrraghav/OpenAI-Chatbot-Query-App
 
-  - name: Force push to Hugging Face (FINAL FIX)
+  - name: Force push to Hugging Face (overwrite remote)
     run: |
       git push hf main --force
 ```
