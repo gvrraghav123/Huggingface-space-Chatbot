@@ -1,18 +1,40 @@
-name: Sync to Hugging Face hub
+name: Sync to Hugging Face Hub
+
 on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+push:
+branches: [main]
+workflow_dispatch:
 
 jobs:
-  sync-to-hub:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          lfs: true
-      - name: Push to hub
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://gvrraghav:$HF_TOKEN@huggingface.co/spaces/gvrraghav/OpenAI-Chatbot-Query-App main
+sync-to-hub:
+runs-on: ubuntu-latest
+
+```
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v3
+    with:
+      fetch-depth: 0
+      lfs: true
+
+  - name: Configure Git
+    run: |
+      git config --global user.email "you@example.com"
+      git config --global user.name "your-username"
+
+  - name: Add Hugging Face remote
+    run: |
+      git remote add hf https://huggingface.co/spaces/gvrraghav/OpenAI-Chatbot-Query-App
+
+  - name: Pull latest changes from Hugging Face
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    run: |
+      git pull https://gvrraghav:$HF_TOKEN@huggingface.co/spaces/gvrraghav/OpenAI-Chatbot-Query-App main --rebase
+
+  - name: Push to Hugging Face
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    run: |
+      git push https://gvrraghav:$HF_TOKEN@huggingface.co/spaces/gvrraghav/OpenAI-Chatbot-Query-App main
+```
