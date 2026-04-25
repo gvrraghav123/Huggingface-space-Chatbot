@@ -11,30 +11,27 @@ runs-on: ubuntu-latest
 
 ```
 steps:
-  - name: Checkout repository
+  - name: Checkout repo
     uses: actions/checkout@v3
     with:
       fetch-depth: 0
-      lfs: true
 
-  - name: Configure Git
+  - name: Set Git identity
     run: |
       git config --global user.email "you@example.com"
       git config --global user.name "your-username"
 
-  - name: Add Hugging Face remote
-    run: |
-      git remote add hf https://huggingface.co/spaces/gvrraghav/OpenAI-Chatbot-Query-App
-
-  - name: Pull latest changes from Hugging Face
+  - name: Add HF remote with token
     env:
       HF_TOKEN: ${{ secrets.HF_TOKEN }}
     run: |
-      git pull https://gvrraghav:$HF_TOKEN@huggingface.co/spaces/gvrraghav/OpenAI-Chatbot-Query-App main --rebase
+      git remote add hf https://gvrraghav:$HF_TOKEN@huggingface.co/spaces/gvrraghav/OpenAI-Chatbot-Query-App
+
+  - name: Pull from Hugging Face (IMPORTANT)
+    run: |
+      git pull hf main --rebase
 
   - name: Push to Hugging Face
-    env:
-      HF_TOKEN: ${{ secrets.HF_TOKEN }}
     run: |
-      git push https://gvrraghav:$HF_TOKEN@huggingface.co/spaces/gvrraghav/OpenAI-Chatbot-Query-App main
+      git push hf main
 ```
